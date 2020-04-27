@@ -15,21 +15,31 @@ public class DiceRollerInJava {
                            { { 1, 0, 1 }, { 1, 0, 1 }, { 1, 0, 1 } } };
  
     public static void main(String[] args) {
+        int totalResultPlayer1 = 0;
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
         while (true) {
             int result = dice.roll();
+            totalResultPlayer1 += result;
             System.out.println("dice face value:" + result);
+            System.out.println("total:" + totalResultPlayer1);
             dice.draw(result);
  
-            System.out.println("Roll again? (type no to quit):");
+            System.out.println("Roll again? (type \"no\" to quit or type \"reset\" to reset the total):");
             String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("n") || 
-                    input.equalsIgnoreCase("no")) {
+            if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) 
+            {
                 System.out.println("Bye!");
                 scanner.close();
                 return;
             }
+            if (input.equalsIgnoreCase("r") || input.equalsIgnoreCase("reset"))
+            {
+                System.out.println("Reset total.");
+                totalResultPlayer1 = 0;
+                System.out.println("total:" + totalResultPlayer1);
+                System.out.println("Rolling again...");
+            } 
         }
     }
  
@@ -57,6 +67,5 @@ public class DiceRollerInJava {
     private int roll() {
         Random r = new Random();
         return r.nextInt(6) + 1;
-        //return 1;
     }
 }
