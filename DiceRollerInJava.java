@@ -1,6 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
- 
+import java.util.ArrayList;
 // dice roller java source code
 // Also outputs the dice face as ASCII art
 public class DiceRollerInJava {
@@ -16,14 +16,38 @@ public class DiceRollerInJava {
  
     public static void main(String[] args) {
         int totalResultPlayer1 = 0;
+        int numberOfDices = 0;
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
+
+        System.out.println("Please enter the number of dices you want to play: ");
+        // Prevent the code from breaking if user input is not Number.
         while (true) {
-            int result = dice.roll();
-            totalResultPlayer1 += result;
-            System.out.println("dice face value:" + result);
-            System.out.println("total:" + totalResultPlayer1);
-            dice.draw(result);
+            String input = scanner.nextLine();
+            try {
+                numberOfDices = Integer.parseInt(input);
+                if (numberOfDices > 0) {
+                    break;
+                }
+                else {
+                    System.out.println("Please enter a positive integer!");    
+                }
+            } catch (NumberFormatException integerError) {
+                System.out.println("This is not a number");
+            }
+        }
+
+        while (true) {
+            ArrayList<Integer> results = dice.roll(numberOfDices);
+
+            totalResultPlayer1 += sumArray(results);
+            System.out.print("dice face value: ");
+            for (int i = 0; i < results.size(); ++i)
+            {
+                System.out.print(results.get(i) + " ");
+            }    
+            System.out.println("\nTotal: " + totalResultPlayer1);
+            dice.draw(results);
  
             System.out.println("Roll again? (type \"no\" to quit or type \"reset\" to reset the total):");
             String input = scanner.nextLine();
@@ -43,29 +67,51 @@ public class DiceRollerInJava {
         }
     }
  
-    // Draw the dice face using ascii characters
-    private void draw(int value) {
-        int[][] displayVal = faceConfig[value - 1];
-        System.out.println("-----");
+    private void draw(ArrayList<Integer> values) {
+        for (int i = 0; i < values.size(); ++i) {
+            System.out.print("-----");    
+        }
+        System.out.println();
  
         for (int i = 0; i < 3; i++) {
-            System.out.print("|");
-            for (int j = 0; j < 3; j++) {
-                if (displayVal[i][j] == 1) {
-                    System.out.print("o");
-                } else {
-                    System.out.print(" ");
+            for (int valueIndex = 0; valueIndex < values.size(); ++valueIndex) {
+                System.out.print("|"); 
+                int value = values.get(valueIndex);
+                int[][] displayVal = faceConfig[value - 1];
+                for (int j = 0; j < 3; j++) {
+                    if (displayVal[i][j] == 1) {
+                        System.out.print("o");
+                    } else {
+                        System.out.print(" ");
+                    }
                 }
+                System.out.print("|");
             }
-            System.out.println("|");
+            System.out.println();
         }
-        System.out.println("-----");
- 
+
+        for (int i = 0; i < values.size(); ++i) {
+            System.out.print("-----");    
+        }
+        System.out.println();
     }
  
     // Roll the dice in Java
-    private int roll() {
+    private ArrayList<Integer> roll(int numberOfDices) {
+        ArrayList<Integer> values = new ArrayList<Integer>();
         Random r = new Random();
-        return r.nextInt(6) + 1;
+        for (int i = 0; i < numberOfDices; ++i) {
+            values.add(r.nextInt(6) + 1);
+        }
+        return values;
+    }
+
+    private static int sumArray(ArrayList<Integer> array)
+    {
+        int sum = 0;
+        for (int i = 0; i < array.size(); ++i) {
+            sum += array.get(i);
+        }
+        return sum;
     }
 }
