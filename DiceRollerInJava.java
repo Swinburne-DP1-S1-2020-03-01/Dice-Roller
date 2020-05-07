@@ -114,14 +114,14 @@ public class DiceRollerInJava {
                     // else game ends and goes back to main menu 
                     if (j < 3)
                     {     
-                        System.out.println("Roll again? (type \"no\" to quit or type \"reset\" to reset the total):");
+                        System.out.println("Roll again? (type \"no\" to quit, type \"yes\" to continue or type \"reset\" to reset the total):");
                         String input = scanner.nextLine();
 
                         while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("yes")
                                 && !input.equalsIgnoreCase("n") && !input.equalsIgnoreCase("no")
                                 && !input.equalsIgnoreCase("r") && !input.equalsIgnoreCase("reset")) {
                             System.out.println("Unknown input! Try again!");
-                            System.out.println("Roll again? (type \"no\" to quit or type \"reset\" to reset the total):");
+                            System.out.println("Roll again? (type \"no\" to quit, type \"yes\" to continue or type \"reset\" to reset the total):");
 
                             input = scanner.nextLine();
                         }
